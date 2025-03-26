@@ -2,30 +2,38 @@ import { useParams } from "react-router-dom"
 import Header from "./Header"
 import { useEffect, useState } from "react"
 import { detailKarya } from "../services/Type"
+import { db } from "../services/datas"
 
 function LihatKarya() {
     const { id } = useParams()
     const [ data, setData ] = useState<detailKarya>({
         id: 0o0,
-        title: '',
-        description: '',
+        title: "",
+        description: "",
         creator: {
-            name: ''
+            name: ""
         }
     })
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch('/data.json')
-            const fetchedData = await response.json()
-
-            if (!id) return
-
-            setData(fetchedData.data[parseInt(id) - 1])
-        }
-
-        fetchData()
+        if (id) {
+            const index = parseInt(id)
+            setData(db[index - 1])
+        } 
     }, [])
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const response = await fetch('/data.json')
+    //         const fetchedData = await response.json()
+
+    //         if (!id) return
+
+    //         setData(fetchedData.data[parseInt(id) - 1])
+    //     }
+
+    //     fetchData()
+    // }, [])
 
     return (
         <>
